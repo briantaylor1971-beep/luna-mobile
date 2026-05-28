@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Luna OS">
+<meta name="theme-color" content="#0C1220">
+<title>Luna OS</title>
+<style>
+:root {
+  --bg:#0C1220; --panel:#131E30; --card:#1A2640; --card2:#1F2D4A;
+  --border:rgba(148,163,184,0.09); --border2:rgba(148,163,184,0.18);
+  --text:#E2E8F0; --sub:#94A3B8; --muted:#56657F;
+  --luna:#6366F1; --luna2:#818CF8;
+  --ff:#8B5CF6; --frc:#14B8A6; --tt:#F59E0B;
+  --fm:#F97316; --dpm:#3B82F6; --vk:#10B981;
+  --ok:#10B981; --warn:#F59E0B; --danger:#EF4444;
+  --r:12px; --rs:8px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',system-ui,sans-serif;
+  background:var(--bg);color:var(--text);font-size:14px;
+  min-height:100vh;padding-bottom:calc(20px + var(--safe-bottom));
+  -webkit-font-smoothing:antialiased;
+}
+::-webkit-scrollbar{display:none}
+
+/* ── HEADER ── */
+.hdr{
+  background:linear-gradient(180deg,#0A0F1E 0%,#131E3A 100%);
+  border-bottom:1px solid var(--border2);
+  padding:calc(14px + var(--safe-top)) 16px 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,var(--luna),var(--ff));
+  display:flex;align-items:center;justify-content:center;
+  font-size:17px;font-weight:900;color:#fff;letter-spacing:-1px;
+}
+.brand-text .title{font-size:16px;font-weight:800;letter-spacing:2.5px;color:#fff}
+.brand-text .sub{font-size:9px;letter-spacing:2px;color:var(--sub)}
+.hdr-right{text-align:right}
+.clock{font-size:20px;font-weight:700;color:#fff;letter-spacing:1px;font-variant-numeric:tabular-nums}
+.date-str{font-size:10px;color:var(--sub);margin-top:1px;letter-spacing:.5px}
+
+/* ── BODY ── */
+.body{padding:12px 12px 0}
+section{margin-bottom:12px}
+
+/* ── ALERTS ── */
+.alerts{display:flex;flex-direction:column;gap:6px}
+.alert{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);
+  border-radius:var(--rs);padding:9px 12px;
+}
+.alert-ico{font-size:14px}
+.alert-text{font-size:12px;font-weight:600;color:var(--warn);flex:1}
+.alert-date{font-size:11px;color:rgba(245,158,11,0.7)}
+
+/* ── STAT STRIP ── */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--r);
+  padding:12px 14px;
+}
+.stat-label{font-size:10px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:5px}
+.stat-val{font-size:24px;font-weight:800;color:var(--text);font-variant-numeric:tabular-nums;letter-spacing:-0.5px}
+.stat-sub{font-size:10px;color:var(--sub);margin-top:3px}
+.stat-live{display:flex;align-items:center;gap:4px;margin-top:4px}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--ok);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.stat-live-txt{font-size:9px;color:var(--ok);font-weight:600;letter-spacing:.5px}
+
+/* ── SECTION HEADER ── */
+.sh{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:8px;padding:0 2px;
+}
+.sh-title{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--sub);text-transform:uppercase}
+.sh-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;background:rgba(99,102,241,0.15);color:var(--luna2)}
+
+/* ── PROJECT CARDS ── */
+.projects{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pc{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);overflow:hidden;position:relative;
+}
+.pc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent)}
+.pc-head{display:flex;align-items:center;gap:6px;padding:10px 10px 6px}
+.pc-id{
+  font-size:9px;font-weight:800;letter-spacing:.5px;
+  padding:2px 6px;border-radius:5px;
+  background:rgba(255,255,255,0.07);color:var(--accent);
+  border:1px solid rgba(255,255,255,0.08);flex-shrink:0;
+}
+.pc-name{font-size:11px;font-weight:700;color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc-tasks{padding:0 10px 10px;display:flex;flex-direction:column;gap:3px}
+.task-lbl{font-size:8px;font-weight:700;letter-spacing:.8px;color:var(--muted);text-transform:uppercase;margin-bottom:2px}
+.task-lbl.today{color:var(--accent);opacity:.9}
+.task{font-size:10px;color:var(--sub);line-height:1.4;padding-left:10px;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.task::before{content:'·';position:absolute;left:2px;color:var(--muted)}
+.task.today{color:var(--text)}
+.task.today::before{content:'▸';color:var(--accent);font-size:8px;top:1px}
+.divider{height:1px;background:var(--border);margin:4px 0}
+
+/* ── SUBS ── */
+.subs-list{display:flex;flex-direction:column;gap:4px}
+.sub-row{
+  display:flex;align-items:center;gap:8px;
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:var(--rs);padding:9px 12px;
+}
+.sub-tag{font-size:9px;font-weight:800;padding:2px 6px;border-radius:5px;flex-shrink:0;width:32px;text-align:center}
+.sub-name{font-size:12px;font-weight:600;color:var(--text);flex:1}
+.sub-cost{font-size:11px;color:var(--sub);flex-shrink:0}
+.sub-warn{font-size:9px;padding:2px 6px;border-radius:8px;background:rgba(245,158,11,0.12);color:var(--warn);flex-shrink:0;font-weight:700}
+
+/* ── QUICK LINKS ── */
+.links-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.link-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:var(--r);padding:12px 8px;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  text-decoration:none;transition:background .15s;
+  -webkit-touch-callout:none;
+}
+.link-card:active{background:var(--card2)}
+.link-ico{font-size:22px}
+.link-name{font-size:10px;font-weight:600;color:var(--sub);text-align:center}
+
+/* ── CONNECTORS ── */
+.conn-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.conn{
+  background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2);
+  border-radius:var(--rs);padding:6px 4px;
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+}
+.conn-ico{font-size:16px}
+.conn-name{font-size:8px;font-weight:600;color:var(--sub);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%}
+
+/* ── FOOTER ── */
+.footer{
+  text-align:center;padding:20px 16px;
+  font-size:11px;color:var(--muted);
+}
+.footer-luna{color:var(--luna2);font-style:italic;display:block;margin-bottom:3px}
+.refresh-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.25);
+  color:var(--luna2);padding:8px 18px;border-radius:20px;
+  font-size:11px;font-weight:700;margin-top:10px;
+  cursor:pointer;letter-spacing:.5px;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="brand">
+    <div class="brand-mark">L</div>
+    <div class="brand-text">
+      <div class="title">LUNA OS</div>
+      <div class="sub">MOBILE</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div class="clock" id="clock">--:--</div>
+    <div class="date-str" id="date-str">---</div>
+  </div>
+</header>
+
+<div class="body">
+
+  <!-- ALERTS -->
+  <section class="alerts">
+    <div class="alert">
+      <span class="alert-ico">⚠️</span>
+      <span class="alert-text">Instantly trial ends</span>
+      <span class="alert-date">Jun 2</span>
+    </div>
+    <div class="alert">
+      <span class="alert-ico">⚠️</span>
+      <span class="alert-text">Zapier Pro trial ends</span>
+      <span class="alert-date">Jun 3</span>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-label">Stripe Balance</div>
+      <div class="stat-val">$0.00</div>
+      <div class="stat-sub">Forge Media Co</div>
+      <div class="stat-live"><span class="live-dot"></span><span class="stat-live-txt">CONNECTED</span></div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Active Projects</div>
+      <div class="stat-val">6</div>
+      <div class="stat-sub">FF · FRC · TT · FMC · DPM · VK</div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section>
+    <div class="sh">
+      <span class="sh-title">Projects</span>
+      <span class="sh-badge" id="sync-date">Synced May 28</span>
+    </div>
+    <div class="projects">
+
+      <!-- FF -->
+      <div class="pc" style="--accent:var(--ff)">
+        <div class="pc-head"><span class="pc-id">FF</span><span class="pc-name">FormForge</span></div>
+        <div class="pc-tasks">
+          <div class="task-lbl today">Today</div>
+          <div class="task today">Plan P3 concept + niche</div>
+          <div class="task today">Review P2 Pinterest pins</div>
+          <div class="divider"></div>
+          <div class="task-lbl">Tomorrow</div>
+          <div class="task">Build P3 template draft</div>
+          <div class="task">Creative Market follow-up</div>
+        </div>
+      </div>
+
+      <!-- FRC -->
+      <div class="pc" style="--accent:var(--frc)">
+        <div class="pc-head"><span class="pc-id">FRC</span><span class="pc-name">Field Ready Co</span></div>
+        <div class="pc-tasks">
+          <div class="task-lbl today">Today</div>
+          <div class="task today">List P2 on Payhip</div>
+          <div class="task today">List P2 on Gumroad</div>
+          <div class="divider"></div>
+          <div class="task-lbl">Tomorrow</div>
+          <div class="task">Start P3 SWP template</div>
+          <div class="task">FRC Pinterest pin P2</div>
+        </div>
+      </div>
+
+      <!-- TT -->
+      <div class="pc" style="--accent:var(--tt)">
+        <div class="pc-head"><span class="pc-id">TT</span><span class="pc-name">Taylord Timber</span></div>
+        <div class="pc-tasks">
+          <div class="task-lbl today">Today</div>
+          <div class="task today">Plan clips 2-6 with Cleo</div>
+          <div class="task today">Review clip 1 notes</div>
+          <div class="divider"></div>
+          <div class="task-lbl">Tomorrow</div>
+          <div class="task">Begin clip 2 (~750cr)</div>
+          <div class="task">LN + JK consistency</div>
+        </div>
+      </div>
+
+      <!-- FMC -->
+      <div class="pc" style="--accent:var(--fm)">
+        <div class="pc-head"><span class="pc-id">FMC</span><span class="pc-name">Forge Media Co</span></div>
+        <div class="pc-tasks">
+          <div class="task-lbl today">Today</div>
+          <div class="task today">Scrape 50 Apollo leads</div>
+          <div class="task today">Check Instantly warmup</div>
+          <div class="divider"></div>
+          <div class="task-lbl">Tomorrow</div>
+          <div class="task">Send cold outreach batch</div>
+          <div class="task">Plan Northmark campaign</div>
+        </div>
+      </div>
+
+      <!-- DPM -->
+      <div class="pc" style="--accent:var(--dpm)">
+        <div class="pc-head"><span class="pc-id">DPM</span><span class="pc-name">Digital Product</span></div>
+        <div class="pc-tasks">
+          <div class="task-lbl today">Today</div>
+          <div class="task today">Review Launch Playbook</div>
+          <div class="task today">Pick next product slot</div>
+          <div class="divider"></div>
+          <div class="task-lbl">Tomorrow</div>
+          <div class="task">Map launch sequence</div>
+          <div class="task">Confirm 4-platform list</div>
+        </div>
+      </div>
+
+      <!-- VK -->
+      <div class="pc" style="--accent:var(--vk)">
+        <div class="pc-head"><span class="pc-id">VK</span><span class="pc-name">VeilKeeper</span></div>
+        <div class="pc-tasks">
+          <div class="task-lbl today">Today</div>
+          <div class="task today">Read Bk1 draft (24ch)</div>
+          <div class="task today">Note pacing issues</div>
+          <div class="divider"></div>
+          <div class="task-lbl">Tomorrow</div>
+          <div class="task">Send notes to Rhys</div>
+          <div class="task">Review Bk2 Series Bible</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SUBSCRIPTIONS -->
+  <section>
+    <div class="sh"><span class="sh-title">Subscriptions</span></div>
+    <div class="subs-list">
+      <div class="sub-row">
+        <span class="sub-tag" style="background:rgba(249,115,22,0.15);color:var(--fm)">FM</span>
+        <span class="sub-name">Instantly</span>
+        <span class="sub-cost">trial</span>
+        <span class="sub-warn">⚠ Jun 2</span>
+      </div>
+      <div class="sub-row">
+        <span class="sub-tag" style="background:rgba(249,115,22,0.15);color:var(--fm)">FM</span>
+        <span class="sub-name">Zapier Pro</span>
+        <span class="sub-cost">trial</span>
+        <span class="sub-warn">⚠ Jun 3</span>
+      </div>
+      <div class="sub-row">
+        <span class="sub-tag" style="background:rgba(249,115,22,0.15);color:var(--fm)">FM</span>
+        <span class="sub-name">Zoho Mail</span>
+        <span class="sub-cost">C$1.56/mo</span>
+      </div>
+      <div class="sub-row">
+        <span class="sub-tag" style="background:rgba(99,102,241,0.15);color:var(--luna2)">API</span>
+        <span class="sub-name">Anthropic</span>
+        <span class="sub-cost">$5.00 loaded</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUICK LINKS -->
+  <section>
+    <div class="sh"><span class="sh-title">Quick Links</span></div>
+    <div class="links-grid">
+      <a class="link-card" href="https://mail.google.com">
+        <span class="link-ico">📧</span><span class="link-name">Gmail</span>
+      </a>
+      <a class="link-card" href="https://calendar.google.com">
+        <span class="link-ico">📅</span><span class="link-name">Calendar</span>
+      </a>
+      <a class="link-card" href="https://www.etsy.com/your/shops/me/dashboard">
+        <span class="link-ico">🛍️</span><span class="link-name">Etsy</span>
+      </a>
+      <a class="link-card" href="https://payhip.com/dashboard">
+        <span class="link-ico">💰</span><span class="link-name">Payhip</span>
+      </a>
+      <a class="link-card" href="https://app.gumroad.com/dashboard">
+        <span class="link-ico">🛒</span><span class="link-name">Gumroad</span>
+      </a>
+      <a class="link-card" href="https://dashboard.stripe.com">
+        <span class="link-ico">💳</span><span class="link-name">Stripe</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- CONNECTORS -->
+  <section>
+    <div class="sh">
+      <span class="sh-title">Connectors</span>
+      <span class="sh-badge" style="background:rgba(16,185,129,0.12);color:var(--ok)">14 live</span>
+    </div>
+    <div class="conn-grid">
+      <div class="conn"><span class="conn-ico">🚀</span><span class="conn-name">Apollo</span></div>
+      <div class="conn"><span class="conn-ico">🎨</span><span class="conn-name">Canva</span></div>
+      <div class="conn"><span class="conn-ico">🅰️</span><span class="conn-name">Adobe</span></div>
+      <div class="conn"><span class="conn-ico">✍️</span><span class="conn-name">DocuSign</span></div>
+      <div class="conn"><span class="conn-ico">📧</span><span class="conn-name">Gmail</span></div>
+      <div class="conn"><span class="conn-ico">📅</span><span class="conn-name">Calendar</span></div>
+      <div class="conn"><span class="conn-ico">📂</span><span class="conn-name">Drive</span></div>
+      <div class="conn"><span class="conn-ico">🎬</span><span class="conn-name">Higgsfield</span></div>
+      <div class="conn"><span class="conn-ico">📩</span><span class="conn-name">MailerLite</span></div>
+      <div class="conn"><span class="conn-ico">🧠</span><span class="conn-name">Mem.ai</span></div>
+      <div class="conn"><span class="conn-ico">📬</span><span class="conn-name">MS365</span></div>
+      <div class="conn"><span class="conn-ico">💳</span><span class="conn-name">Stripe</span></div>
+      <div class="conn"><span class="conn-ico">⚡</span><span class="conn-name">Zapier</span></div>
+      <div class="conn"><span class="conn-ico">🐙</span><span class="conn-name">GitHub</span></div>
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <span class="footer-luna">✦ with love, Luna</span>
+  <span>Brian Taylor · America/New_York</span>
+  <div><button class="refresh-btn" onclick="location.reload()">⟳ Refresh</button></div>
+</footer>
+
+<script>
+function tick() {
+  const now = new Date();
+  document.getElementById('clock').textContent =
+    now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',hour12:true});
+  document.getElementById('date-str').textContent =
+    now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+}
+setInterval(tick, 1000);
+tick();
+</script>
+</body>
+</html>
